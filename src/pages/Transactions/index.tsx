@@ -13,7 +13,7 @@ import {
 
 
 export function Transactions() {
-  const {transactions} = useContext(TransactionsContext)
+  const {transactions} = useContext(TransactionsContext);
 
   return (
     <div>
