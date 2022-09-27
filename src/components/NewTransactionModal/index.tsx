@@ -2,7 +2,6 @@ import * as Dialog from "@radix-ui/react-dialog";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowCircleDown, ArrowCircleUp, X } from "phosphor-react";
-import { Transactions } from "../../pages/Transactions";
 import {
   CloseButton,
   Content,
@@ -16,7 +15,7 @@ const newTransactionSchema = z.object({
   description: z.string(),
   price: z.number(),
   category: z.string(),
-  type: z.enum(["income", "Outcome"]),
+  type: z.enum(["income", "outcome"]),
 });
 
 type NewTransactionFormInputs = z.infer<typeof newTransactionSchema>;
@@ -29,6 +28,9 @@ export function NewTransactionModal() {
     formState: { isSubmitting },
   } = useForm<NewTransactionFormInputs>({
     resolver: zodResolver(newTransactionSchema),
+    defaultValues: {
+      type: 'income'
+    }
   });
 
   async function handleCreateNewTransaction(data: NewTransactionFormInputs) {
@@ -45,7 +47,7 @@ export function NewTransactionModal() {
           pai.
       */}
       {/**  O primeiro argumento (child) é qualquer elemento filho React
-       *  renderizável, como um elemento, string ou fragmento.
+       *  renderizáveis, como um elemento, string ou fragmento.
        *  O segundo argumento (container) é um elemento DOM.
        */}
       <Overlay />
@@ -79,9 +81,11 @@ export function NewTransactionModal() {
           <Controller
             control={control}
             name="type"
-            render={(render) => {
+            render={({field}) => {
+
+              console.log(field)
               return (
-                <TransactionType onValueChange={}>
+                <TransactionType onValueChange={field.onChange} value={field.value}>
                   <TransactionTypeButton variant="income" value="income">
                     <ArrowCircleUp size={24} />
                     Entrada
