@@ -7,7 +7,7 @@ export function useSummary(){
   //reduce percorre um Array e vai reduzir a uma nova estrutura de dados
   //Neste caso vai ter [{income: 0, outcome:0 , total: 0}]
   const summary = transactions.reduce((acc, transaction) => {
-    if(transaction.type === 'Income'){
+    if(transaction.type === 'income'){
       acc.income += transaction.price;
       acc.total += transaction.price;
     } else {

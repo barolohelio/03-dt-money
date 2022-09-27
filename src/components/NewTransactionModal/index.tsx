@@ -12,14 +12,14 @@ import {
 } from "./style";
 import { Controller, useForm } from "react-hook-form";
 
-const newTransactionSchema = z.object({
+const newTransactionFormSchema = z.object({
   description: z.string(),
   price: z.number(),
   category: z.string(),
-  type: z.enum(["income", "Outcome"]),
+  type: z.enum(["income", "outcome"]),
 });
 
-type NewTransactionFormInputs = z.infer<typeof newTransactionSchema>;
+type NewTransactionFormInputs = z.infer<typeof newTransactionFormSchema>;
 
 export function NewTransactionModal() {
   const {
@@ -28,7 +28,10 @@ export function NewTransactionModal() {
     handleSubmit,
     formState: { isSubmitting },
   } = useForm<NewTransactionFormInputs>({
-    resolver: zodResolver(newTransactionSchema),
+    resolver: zodResolver(newTransactionFormSchema),
+    defaultValues: { 
+      type: 'income'
+    }
   });
 
   async function handleCreateNewTransaction(data: NewTransactionFormInputs) {
@@ -74,14 +77,14 @@ export function NewTransactionModal() {
             placeholder="Categoria"
             required
             {...register("category")}
-          />
+          /> 
 
           <Controller
             control={control}
             name="type"
-            render={(render) => {
+            render={({field}) => {
               return (
-                <TransactionType onValueChange={}>
+                <TransactionType onValueChange={field.onChange} value={field.value}>
                   <TransactionTypeButton variant="income" value="income">
                     <ArrowCircleUp size={24} />
                     Entrada
@@ -96,7 +99,7 @@ export function NewTransactionModal() {
             }}
           />
 
-          <button type="submit" disabled={isSubmitting}>
+          <button type="submit" disabled={isSubmitting} >
             Cadastrar
           </button>
         </form>
