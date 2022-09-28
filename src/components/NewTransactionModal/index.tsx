@@ -59,7 +59,7 @@ export function NewTransactionModal() {
           pai.
       */}
       {/**  O primeiro argumento (child) é qualquer elemento filho React
-       *  renderizável, como um elemento, string ou fragmento.
+       *  renderizáveis, como um elemento, string ou fragmento.
        *  O segundo argumento (container) é um elemento DOM.
        */}
       <Overlay />
